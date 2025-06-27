@@ -1,11 +1,20 @@
-FROM node:20
+# Use lightweight base image
+FROM node:20-alpine
 
+# Set working directory
 WORKDIR /app
 
-COPY package*.json /app
+# Copy only necessary files first
+COPY package*.json ./
 
-RUN npm install
+# Install production dependencies
+RUN npm install --production
 
+# Copy remaining source code
+COPY . .
+
+# App runs on this port
 EXPOSE 3000
 
-CMD ["npm", "dev", "run", "start"]
+# Start the app
+CMD ["npm", "run", "dev"]
